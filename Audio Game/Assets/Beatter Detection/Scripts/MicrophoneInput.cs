@@ -1,0 +1,118 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
+public class MicrophoneInput : MonoBehaviour {
+
+	// Private Lists
+	private float[] samplesLeft = new float[1024];
+	private float[] samplesRight = new float[1024];
+	private float[] samplesStereo = new float[1024];
+
+	public static float[] freqSubbandsInstant;
+
+	// Public Variables
+	public float minThreshold = 0;
+	public float frequency = 0.0f;
+	public int audioSampleRate = 44100;
+	public string microphone;
+	public FFTWindow fftWindow;
+	public int numberOfSubbands;
+
+	// Private Variables
+	private List<string> options = new List<string>();
+	private int numberOfSamples = 1024;
+	private AudioSource audioSource;
+
+	void Start() {
+		freqSubbandsInstant = new float[numberOfSubbands];
+
+		//get components you'll need
+		audioSource = GetComponent<AudioSource>();
+
+		// get all available microphones
+		foreach (string device in Microphone.devices) {
+			if (microphone == null) {
+				//set default mic to first mic found.
+				microphone = device;
+			}
+			options.Add(device);
+		}
+
+		UpdateMicrophone();
+	}
+
+	void UpdateMicrophone() {
+		audioSource.Stop();
+		//Start recording to audioclip from the mic
+		audioSource.clip = Microphone.Start(microphone, true, 10, audioSampleRate);
+		audioSource.loop = true;
+		// Mute the sound with an Audio Mixer group becuase we don't want the player to hear it
+		//Debug.Log(Microphone.IsRecording(microphone).ToString());
+
+		if (Microphone.IsRecording(microphone)) { //check that the mic is recording, otherwise you'll get stuck in an infinite loop waiting for it to start
+			while (!(Microphone.GetPosition(microphone) > 0)) {
+			} // Wait until the recording has started. 
+
+			Debug.Log("recording started with " + microphone.ToString());
+
+			audioSource.Play();
+		} else {
+			Debug.Log(microphone + " doesn't work!");
+		}
+	}
+
+	void Update() {
+		GetSpectrumAudioSource();
+		CreateStereoSampleList();
+		CreateSubbands();
+	}
+
+	// Step #1
+	void GetSpectrumAudioSource() {
+		audioSource.GetSpectrumData(samplesLeft, 0, FFTWindow.BlackmanHarris);
+		audioSource.GetSpectrumData(samplesRight, 1, FFTWindow.BlackmanHarris);
+	}
+
+	// Step #2
+	void CreateStereoSampleList() {
+		for (int i = 0; i < samplesStereo.Length; i++) {
+			samplesStereo[i] = samplesLeft[i] + samplesRight[i];
+		}
+	}
+
+	void CreateSubbands() {
+		// After testing out numberOfSubbands of 32, 64 and 128, 1/2 is the closest to a sum of 1024
+		int count = 0;
+		int logBaseToGetClosestTo1024 = numberOfSubbands / 2;
+		for (int i = 1; i <= numberOfSubbands; i++) {
+			int numberOfSamplesToAddToSubband = (int)(Mathf.Log(i, logBaseToGetClosestTo1024) * (numberOfSamples / numberOfSubbands)) + 1; // Reason I add 1, is b/c otherwise log(1) is null and causes errors
+			float average = 0;
+			// On the last subband, add the rest of sample frequencies
+			if (i == numberOfSubbands) {
+				int leftover = numberOfSubbands - count;
+				numberOfSamplesToAddToSubband = leftover;
+			}
+
+			for (int j = 0; j < numberOfSamplesToAddToSubband; j++) {
+				average += samplesStereo[count];
+				count++;
+			}
+			average /= numberOfSamplesToAddToSubband;
+			freqSubbandsInstant[i - 1] = average * 10;
+		}
+	}
+
+	public float GetAveragedVolume() {
+		float[] data = new float[256];
+		float a = 0;
+		audioSource.GetOutputData(data, 0);
+		foreach (float s in data) {
+			a += Mathf.Abs(s);
+		}
+
+		float averageVolume = a / 256 * 100;
+		return averageVolume;
+	}
+}
