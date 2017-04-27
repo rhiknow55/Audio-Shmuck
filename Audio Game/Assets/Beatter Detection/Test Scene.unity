@@ -877,7 +877,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bdeadbfedf4dfe64ca69fcc7fb068236, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 75d6d77c3e0cfc4488e6862a2e5e3837, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -974,7 +974,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfSamples: 1024
   numberOfSubbands: 32
-  varianceLimit: 0.15
 --- !u!1 &841744418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1388,6 +1387,7 @@ MonoBehaviour:
   audioSampleRate: 44100
   microphone: 
   fftWindow: 5
+  numberOfSubbands: 0
 --- !u!82 &1076090699
 AudioSource:
   m_ObjectHideFlags: 0

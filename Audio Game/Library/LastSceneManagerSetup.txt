@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Beatter Detection/Test Scene.unity
+- path: Assets/Beatter Detection/BeatBox Maze.unity
   isLoaded: 1
   isActive: 1

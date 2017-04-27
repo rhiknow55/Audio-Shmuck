@@ -58,9 +58,6 @@ public class AudioCompiler : MonoBehaviour {
 		CalculateVarianceOfSubbands();
 		List<int> testList = CheckForFreqSpike();
 		//if(testList.Count != 0) Debug.Log(testList.Count);
-		for(int i = 0; i < testList.Count; i++) {
-			//Debug.Log(i);
-		}
 	}
 
 	// Step #1
