@@ -32,7 +32,7 @@ public class AudioCompiler : MonoBehaviour {
 	// Public Variables
 	public int numberOfSamples;
 	public int numberOfSubbands;
-	float varianceLimit = 0.15f;
+	float varianceLimit = 0.25f;
 
 	//Private Variables
 	int averageLocalIndex;

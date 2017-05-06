@@ -7,11 +7,8 @@ TagManager:
   - Floor
   - Sphere
   - Wall
-  - despawn
   - GreenTrigger
-  - YellowTrigger1
-  - YellowTrigger2
-  - Trigger
+  - Indicator
   layers:
   - Default
   - TransparentFX
