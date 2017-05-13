@@ -877,7 +877,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 75d6d77c3e0cfc4488e6862a2e5e3837, type: 3}
+  m_audioClip: {fileID: 8300000, guid: bdeadbfedf4dfe64ca69fcc7fb068236, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1370,7 +1370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1076090698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1382,12 +1382,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6884c3a971966d44babbdd099894398e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minThreshold: 0
-  frequency: 0
   audioSampleRate: 44100
   microphone: 
   fftWindow: 5
-  numberOfSubbands: 0
+  numberOfSubbands: 32
+  varianceLimit: 0.01
 --- !u!82 &1076090699
 AudioSource:
   m_ObjectHideFlags: 0
