@@ -11,6 +11,7 @@ public class AudioScrub : MonoBehaviour {
 	public string AudioCompilerObject;
 	public AudioClip song;
 	AudioSource compiler, player;
+	public float audioPlayerDelay = 3.0f;
 
 	float currentTime;
 	bool paused;
@@ -54,7 +55,7 @@ public class AudioScrub : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0) && Trig == true)
         {
 			AudioFrom.GetComponent<AudioSource>().time = scrollPos;// Will only change the audio position once the mouse is released
-			AudioCompiler.GetComponent<AudioSource>().time = scrollPos + 3f;
+			AudioCompiler.GetComponent<AudioSource>().time = scrollPos + AudioCompiler.GetComponent<AudioCompiler>().playDelay;
 			Trig = false;
 		}
 

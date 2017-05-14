@@ -82,7 +82,6 @@ public class MicrophoneInput : MonoBehaviour {
 		CreateStereoSampleList();
 		CreateSubbands();
 		CalculateVarianceOfSubbands();
-		print(CheckForFreqSpike().Count);
 	}
 
 	// Step #1
