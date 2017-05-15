@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 8
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &59756071
@@ -216,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 3
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &105304914
@@ -311,6 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 15
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &154418493
@@ -469,6 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 1
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!1 &391913780
@@ -501,6 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 6
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &391913782
@@ -596,6 +601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 7
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &448922269
@@ -691,6 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 2
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &662105047
@@ -786,6 +793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 4
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &717018985
@@ -974,6 +982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfSamples: 1024
   numberOfSubbands: 32
+  playDelay: 3
 --- !u!1 &841744418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,6 +1053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 13
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &862346634
@@ -1289,6 +1299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 14
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &1067856879
@@ -1386,7 +1397,6 @@ MonoBehaviour:
   microphone: 
   fftWindow: 5
   numberOfSubbands: 32
-  varianceLimit: 0.01
 --- !u!82 &1076090699
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1510,6 +1520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 10
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &1419968480
@@ -1605,6 +1616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 9
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &1428779745
@@ -1700,6 +1712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 11
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &1511364140
@@ -1795,6 +1808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 5
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &1651580246
@@ -1890,6 +1904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 16
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &1680129138
@@ -2029,6 +2044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c62371dabb5b0845b7d4719a3b07838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMicInput: 0
   index: 12
   color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!23 &1927323818

@@ -19,6 +19,10 @@ public class RingScript : MonoBehaviour {
 	float initialScale;
 	GameObject connectedIndicator;
 
+	void Start() {
+		proficientyLevel = 1;
+	}
+
 	// Set proficiency level depending on the scale of the ring!
 	void Update() {
 		SetProficiencyLevel();

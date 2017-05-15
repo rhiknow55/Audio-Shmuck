@@ -19,12 +19,14 @@ public class BeatBoxRpgIndicator : MonoBehaviour {
 	float spawnedTimeBass, spawnedTimeRing;
 	Vector3 initialScale;
 	float yScale;
+	bool ringSpawnReset;
 
 	void Start() {
 		yScale = ringPrefab.transform.localScale.y;
 		initialScale = ringPrefab.transform.localScale;
 		ringPool = new List<GameObject>();
 		Init(ringPool, ringPrefab, 20, "Ring");
+		ringSpawnReset = true;
 	}
 
 	void Init(List<GameObject> pool, GameObject prefab, int size, string name) {
@@ -43,11 +45,14 @@ public class BeatBoxRpgIndicator : MonoBehaviour {
 		listOfSpikes = audioCompilerScript.CheckForFreqSpike();
 
 		//if (listOfSpikes.Contains(1) && Time.time >= spawnedTimeBass + spawnInterval) GenerateBass();
-		if (listOfSpikes.Count > 0 && !listOfSpikes.Contains(1) && Time.time >= spawnedTimeRing + spawnInterval) GenerateRing();
+		//if (listOfSpikes.Count > 0 && Time.time >= spawnedTimeRing + spawnInterval && ringSpawnReset) GenerateRing();
+		if (listOfSpikes.Contains(1) && Time.time >= spawnedTimeRing + spawnInterval && ringSpawnReset) GenerateRing();
+		if (listOfSpikes.Count == 0) ringSpawnReset = true;
 
 	}
 
 	void GenerateBass() {
+		ringSpawnReset = false;
 		SpawnBass();
 		spawnedTimeBass = CurrentTime();
 		spawnedTimeRing = CurrentTime();

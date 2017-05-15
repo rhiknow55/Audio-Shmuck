@@ -58,6 +58,7 @@ public class AudioCompiler : MonoBehaviour {
 		CreateSubbands();
 		CalculateVarianceOfSubbands();
 		List<int> testList = CheckForFreqSpike();
+		GetHighestFreqInListOfFreqSpikes();
 		//if(testList.Count != 0) Debug.Log(testList.Count);
 	}
 
@@ -144,5 +145,18 @@ public class AudioCompiler : MonoBehaviour {
 	void ChangeC(int index, float variance) {
 		float newC = (variance * 0.0025714f) + 1.5142857f;
 		constantC[index] = newC;
+	}
+
+	public float GetHighestFreqInListOfFreqSpikes() {
+		List<int> spikes = CheckForFreqSpike();
+		float highestFreq = 0f;
+
+		if(spikes.Count > 0) {
+			for(int i = 0; i < spikes.Count; i++) {
+				if (freqSubbandsInstant[spikes[i]] > highestFreq) highestFreq = freqSubbandsInstant[spikes[i]];
+			}
+		}
+
+		return highestFreq;
 	}
 }

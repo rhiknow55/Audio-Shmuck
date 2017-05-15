@@ -16,13 +16,16 @@ public class MicrophoneInput : MonoBehaviour {
 	public static float[] freqSubbandsInstant;
 
 	// Public Variables
-	public int audioSampleRate = 44100;
-	public string microphone;
+	
+	
 	public FFTWindow fftWindow;
-	public int numberOfSubbands;
-	float varianceLimit = 0.01f;
+	float varianceLimit = 0.08f;
 
 	// Private Variables
+	string microphone;
+	int audioSampleRate = 44100;
+	int numberOfSubbands = 32;
+
 	private List<string> options = new List<string>();
 	private int numberOfSamples = 1024;
 	private AudioSource audioSource;
@@ -82,6 +85,11 @@ public class MicrophoneInput : MonoBehaviour {
 		CreateStereoSampleList();
 		CreateSubbands();
 		CalculateVarianceOfSubbands();
+
+		GetHighestFreqInListOfFreqSpikes();
+		// For calibration
+		GetHighestFreqInstant();
+		if (PreGameManager.calibrating) GetHighestFreqOverall();
 	}
 
 	// Step #1
@@ -179,5 +187,38 @@ public class MicrophoneInput : MonoBehaviour {
 
 		float averageVolume = a / 256 * 100;
 		return averageVolume;
+	}
+
+	public float GetHighestFreqInListOfFreqSpikes() {
+		List<int> spikes = CheckForFreqSpike();
+		float highestFreq = 0f;
+
+		if (spikes.Count > 0) {
+			for (int i = 0; i < spikes.Count; i++) {
+				if (freqSubbandsInstant[spikes[i]] > highestFreq) highestFreq = freqSubbandsInstant[spikes[i]];
+			}
+		}
+
+		return highestFreq;
+	}
+
+	public float GetHighestFreqInstant() {
+		float highestFreq = 0f;
+
+		for (int i = 0; i < freqSubbandsInstant.Length; i++) {
+			if (freqSubbandsInstant[i] > highestFreq) highestFreq = freqSubbandsInstant[i];
+		}
+
+		return highestFreq;
+	}
+
+	float highestFreqOverall = 0;
+	// For calibration of the mic
+	public float GetHighestFreqOverall() {
+		for(int i = 0; i < freqSubbandsInstant.Length; i++) {
+			if (freqSubbandsInstant[i] > highestFreqOverall) highestFreqOverall = freqSubbandsInstant[i];
+		}
+
+		return highestFreqOverall;
 	}
 }

@@ -4,30 +4,58 @@ using UnityEngine;
 
 
 public class BeatBoxRpgManager : MonoBehaviour {
-
-	public MicrophoneInput micInputScript;
+	
+	public GameObject micInput;
 	public BeatBoxRpgIndicator indicatorScript;
+	public bool useMicDetection;
 
 	List<GameObject> activeRings;
+	bool micBeatDetectionReset;
+	float timestampOfMicBeatDetection;
+	float beatDetectionDelay = 0.2f;
+	float freqAccuracyThresholdPercentage = 0.8f;
+	float lowerThreshold;
+	float highestMicInputFreq;
 
 	void Start() {
 		activeRings = new List<GameObject>();
+		micBeatDetectionReset = true;
+		lowerThreshold = PreGameManager.calibratedFreq - PreGameManager.calibratedFreq * freqAccuracyThresholdPercentage;
+		print("Lower Threshold : " + lowerThreshold);
 	}
 
 	void Update() {
-		MicDetection();
+		BeatDetection();
 		HighLightRing();
 	}
 
-	void MicDetection() {
-		/*
-		if(micInputScript.CheckForFreqSpike().Count > 0) {
-			CheckAccuracyOfMicInput();
-		}*/
+	void BeatDetection() {
+		if (useMicDetection) {
+			MicDetection();
+		}
+		
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			CheckAccuracyOfMicInput();
 		}
 	}
+
+	void MicDetection() {
+		if (micBeatDetectionReset) {
+			highestMicInputFreq = micInput.GetComponent<MicrophoneInput>().GetHighestFreqInstant();
+
+			
+			// If mic input highest freq is similar to what was originally calibrated, its fine
+			if (highestMicInputFreq >= lowerThreshold) {
+				print("highest : " + highestMicInputFreq);
+				CheckAccuracyOfMicInput();
+			}
+
+			micBeatDetectionReset = false;
+			timestampOfMicBeatDetection = Time.time;
+		}
+		if (micInput.GetComponent<MicrophoneInput>().CheckForFreqSpike().Count == 0 && Time.time >= timestampOfMicBeatDetection + beatDetectionDelay) micBeatDetectionReset = true;
+	}
+
 
 	void HighLightRing() {
 		for (int i = 0; i < activeRings.Count; i++) {

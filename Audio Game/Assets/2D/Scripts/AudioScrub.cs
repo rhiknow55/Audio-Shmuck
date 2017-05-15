@@ -15,13 +15,15 @@ public class AudioScrub : MonoBehaviour {
 
 	float currentTime;
 	bool paused;
+	float timeAtStartOfGame;
 
 	private void Start() {
+		timeAtStartOfGame = Time.time;
 		AudioFrom = GameObject.Find(AudioObject);//Get Audio from game object
 		AudioCompiler = GameObject.Find(AudioCompilerObject);
 		player = AudioFrom.GetComponent<AudioSource>();
 		player.clip = song;
-		//player.Pause();
+		player.Pause();
 		paused = true;
 		compiler = AudioCompiler.GetComponent<AudioSource>();
 		
@@ -34,7 +36,7 @@ public class AudioScrub : MonoBehaviour {
 	}
 
 	void CheckTimeAndUnpause() {
-		currentTime = Time.time;
+		currentTime = Time.time - timeAtStartOfGame;
 		if (currentTime >= AudioPlayer.playDelay) {
 			player.Play();
 			paused = false;
