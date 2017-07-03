@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Beatter Detection/BeatBox Rpg.unity
+- path: Assets/VisualizeR/VisualizeR.unity
   isLoaded: 1
   isActive: 1
