@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// @author Ryan Oh
+/// 
 /// Steps:
 /// #1: Use Fast Fourier Transform to convert audio into a list of 1024 frequencies.
 ///    In total, a song with sample frequency of 44100 would have 43 of these 1024 lists occur in one second.
@@ -15,13 +17,13 @@ using UnityEngine;
 /// #5: Check if the freqSubbandsInstant[n] is greater than the average of freqSubbandsAverageLocal[n]
 ///     So basically if the instant freq spikes
 /// #6: Calculate the variance of each subband
+/// </summary>
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioPlayback : MonoBehaviour {
-	AudioSource audioSource;
-
+[RequireComponent (typeof (AudioSource))]
+public class AbstractAudioCompiler : MonoBehaviour
+{
 	// Private Lists
-	private float[] samplesLeft = new float[1024];
+    private float[] samplesLeft = new float[1024];
 	private float[] samplesRight = new float[1024];
 	private float[] samplesStereo = new float[1024];
 	public static float[] freqSubbandsInstant;
@@ -29,18 +31,18 @@ public class AudioPlayback : MonoBehaviour {
 	private float[] variances;
 	private float[] constantC;
 
-	// Public Variables
-	public int numberOfSamples;
-	public int numberOfSubbands;
+	// Editable Variables
+	int numberOfSamples = 1024;
+	int numberOfSubbands = 32;
 	float varianceLimit = 0.25f;
-	public float playDelay = 3f;
 
 	//Private Variables
 	int averageLocalIndex;
 	int count = 1;
+	protected AudioSource audioSource;
 
-	void Start() {
-		audioSource = GetComponent<AudioSource>();
+	protected virtual void Start () {
+        audioSource = GetComponent<AudioSource>();
 		freqSubbandsInstant = new float[numberOfSubbands];
 		// Instantiate a multidimensional array like this - each subband has 43 values in one second
 		freqSubbandsAverageLocal = new float[numberOfSubbands][];
@@ -52,14 +54,11 @@ public class AudioPlayback : MonoBehaviour {
 		constantC = new float[numberOfSubbands];
 	}
 
-	void Update() {
-		GetSpectrumAudioSource();
+	protected virtual void Update () {
+        GetSpectrumAudioSource();
 		CreateStereoSampleList();
 		CreateSubbands();
 		CalculateVarianceOfSubbands();
-		List<int> testList = CheckForFreqSpike();
-		GetHighestFreqInListOfFreqSpikes();
-		//if(testList.Count != 0) Debug.Log(testList.Count);
 	}
 
 	// Step #1
@@ -80,16 +79,16 @@ public class AudioPlayback : MonoBehaviour {
 		// After testing out numberOfSubbands of 32, 64 and 128, 1/2 is the closest to a sum of 1024
 		int count = 0;
 		int logBaseToGetClosestTo1024 = numberOfSubbands / 2;
-		for (int i = 1; i <= numberOfSubbands; i++) {
-			int numberOfSamplesToAddToSubband = (int)(Mathf.Log(i, logBaseToGetClosestTo1024) * (numberOfSamples / numberOfSubbands)) + 1; // Reason I add 1, is b/c otherwise log(1) is null and causes errors
+		for(int i = 1; i <= numberOfSubbands; i++) {
+			int numberOfSamplesToAddToSubband = (int) (Mathf.Log(i, logBaseToGetClosestTo1024) * (numberOfSamples / numberOfSubbands)) + 1; // Reason I add 1, is b/c otherwise log(1) is null and causes errors
 			float average = 0;
 			// On the last subband, add the rest of sample frequencies
-			if (i == numberOfSubbands) {
+			if(i == numberOfSubbands) {
 				int leftover = numberOfSubbands - count;
 				numberOfSamplesToAddToSubband = leftover;
 			}
 
-			for (int j = 0; j < numberOfSamplesToAddToSubband; j++) {
+			for(int j = 0; j < numberOfSamplesToAddToSubband; j++) {
 				average += samplesStereo[count];
 				count++;
 			}
@@ -102,7 +101,7 @@ public class AudioPlayback : MonoBehaviour {
 
 	// Step #4
 	void SaveOneSecondOfSoundEnergy() {
-		for (int i = 0; i < freqSubbandsInstant.Length; i++) {
+		for(int i = 0; i < freqSubbandsInstant.Length; i++) {
 			freqSubbandsAverageLocal[i][averageLocalIndex] = freqSubbandsInstant[i];
 		}
 		if (averageLocalIndex < 43 - 1) averageLocalIndex++;
@@ -110,16 +109,20 @@ public class AudioPlayback : MonoBehaviour {
 	}
 
 	// Step #5
+	/// <summary>
+	/// Returns a list of indexes amongst the subbands array that have a peak in frequency.
+	/// </summary>
+	/// <returns></returns>
 	public List<int> CheckForFreqSpike() {
 		List<int> spikeList = new List<int>();
-		for (int i = 0; i < numberOfSubbands; i++) {
+		for(int i = 0; i < numberOfSubbands; i++) {
 			float localAverage = 0;
 			for (int j = 0; j < 43; j++) {
 				localAverage += freqSubbandsAverageLocal[i][j];
 			}
 			localAverage /= 43;
-
-			if (freqSubbandsInstant[i] > localAverage * constantC[i] && variances[i] > varianceLimit) {
+			
+			if(freqSubbandsInstant[i] > localAverage * constantC[i] && variances[i] > varianceLimit) {
 				//Debug.Log("localAverage = " + localAverage * C + " ||||| instant = " + freqSubbandsInstant[i]);
 				spikeList.Add(i);
 			}
@@ -130,7 +133,7 @@ public class AudioPlayback : MonoBehaviour {
 
 	// Step #6
 	void CalculateVarianceOfSubbands() {
-		for (int i = 0; i < variances.Length; i++) {
+		for(int i = 0; i < variances.Length; i++) {
 			float localAverage = 0;
 			for (int j = 0; j < 43; j++) {
 				localAverage += freqSubbandsAverageLocal[i][j];
@@ -147,12 +150,16 @@ public class AudioPlayback : MonoBehaviour {
 		constantC[index] = newC;
 	}
 
+	/// <summary>
+	/// Returns the highest frequency value in that instant.
+	/// </summary>
+	/// <returns></returns>
 	public float GetHighestFreqInListOfFreqSpikes() {
 		List<int> spikes = CheckForFreqSpike();
 		float highestFreq = 0f;
 
-		if (spikes.Count > 0) {
-			for (int i = 0; i < spikes.Count; i++) {
+		if(spikes.Count > 0) {
+			for(int i = 0; i < spikes.Count; i++) {
 				if (freqSubbandsInstant[spikes[i]] > highestFreq) highestFreq = freqSubbandsInstant[spikes[i]];
 			}
 		}

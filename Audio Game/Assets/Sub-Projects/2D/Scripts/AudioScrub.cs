@@ -1,67 +1,74 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿//using unityengine;
+//using system.collections;
 
-public class AudioScrub : MonoBehaviour {
+//public class audioscrub : monobehaviour
+//{
 
-	GameObject AudioFrom;//Used to hold the Audiosource
-	GameObject AudioCompiler;
-	private float scrollPos = 0f;//Position of Scroll
-	bool Trig;// Used as a "gate"
-	public string AudioObject; // This is the Game object which holds the audio source
-	public string AudioCompilerObject;
-	public AudioClip song;
-	AudioSource compiler, player;
-	public float audioPlayerDelay = 3.0f;
+//	gameobject audiofrom;//used to hold the audiosource
+//	gameobject audiocompiler;
+//	private float scrollpos = 0f;//position of scroll
+//	bool trig;// used as a "gate"
+//	public string audioobject; // this is the game object which holds the audio source
+//	public string audiocompilerobject;
+//	public audioclip song;
+//	audiosource compiler, player;
+//	public float audioplayerdelay = 3.0f;
 
-	float currentTime;
-	bool paused;
-	float timeAtStartOfGame;
+//	float currenttime;
+//	bool paused;
+//	float timeatstartofgame;
 
-	private void Start() {
-		timeAtStartOfGame = Time.time;
-		AudioFrom = GameObject.Find(AudioObject);//Get Audio from game object
-		AudioCompiler = GameObject.Find(AudioCompilerObject);
-		player = AudioFrom.GetComponent<AudioSource>();
-		player.clip = song;
-		player.Pause();
-		paused = true;
-		compiler = AudioCompiler.GetComponent<AudioSource>();
-		
-		compiler.clip = song;
-		compiler.Play();
-	}
+//	private void start()
+//	{
+//		timeatstartofgame = time.time;
+//		audiofrom = gameobject.find(audioobject);//get audio from game object
+//		audiocompiler = gameobject.find(audiocompilerobject);
+//		player = audiofrom.getcomponent<audiosource>();
+//		player.clip = song;
+//		player.pause();
+//		paused = true;
+//		compiler = audiocompiler.getcomponent<audiosource>();
 
-	void Update() {
-		if (paused) CheckTimeAndUnpause();
-	}
+//		compiler.clip = song;
+//		compiler.play();
+//	}
 
-	void CheckTimeAndUnpause() {
-		currentTime = Time.time - timeAtStartOfGame;
-		if (currentTime >= AudioPlayer.playDelay) {
-			player.Play();
-			paused = false;
-		}
-	}
+//	void update()
+//	{
+//		if (paused) checktimeandunpause();
+//	}
 
-	private void OnGUI() {
+//	void checktimeandunpause()
+//	{
+//		currenttime = time.time - timeatstartofgame;
+//		if (currenttime >= audioplayer.playdelay)
+//		{
+//			player.play();
+//			paused = false;
+//		}
+//	}
 
-		scrollPos = GUI.HorizontalSlider(new Rect(0f, 50f, Screen.width, 50f), scrollPos, 0, AudioFrom.GetComponent<AudioSource>().clip.length);
+//	private void ongui()
+//	{
 
-		if (GUI.changed == true) {
-			Trig = true;// Open "gate"
-		}
-		if (GUI.changed == false && !Input.GetMouseButton(0) && Trig == false)
-        {
-			scrollPos = AudioFrom.GetComponent<AudioSource>().time;// Makes slider follow the audio when not used (Clicked)
-		}
-		if (Input.GetMouseButtonUp(0) && Trig == true)
-        {
-			AudioFrom.GetComponent<AudioSource>().time = scrollPos;// Will only change the audio position once the mouse is released
-			AudioCompiler.GetComponent<AudioSource>().time = scrollPos + AudioCompiler.GetComponent<AudioCompiler>().playDelay;
-			Trig = false;
-		}
+//		scrollpos = gui.horizontalslider(new rect(0f, 50f, screen.width, 50f), scrollpos, 0, audiofrom.getcomponent<audiosource>().clip.length);
 
-		GUI.Label(new Rect(10f, 80f, 100f, 30f), (AudioFrom.GetComponent<AudioSource>().time).ToString());
+//		if (gui.changed == true)
+//		{
+//			trig = true;// open "gate"
+//		}
+//		if (gui.changed == false && !input.getmousebutton(0) && trig == false)
+//		{
+//			scrollpos = audiofrom.getcomponent<audiosource>().time;// makes slider follow the audio when not used (clicked)
+//		}
+//		if (input.getmousebuttonup(0) && trig == true)
+//		{
+//			audiofrom.getcomponent<audiosource>().time = scrollpos;// will only change the audio position once the mouse is released
+//			audiocompiler.getcomponent<audiosource>().time = scrollpos + audiocompiler.getcomponent<audiocompiler>().playdelay;
+//			trig = false;
+//		}
 
-	}
-}
+//		gui.label(new rect(10f, 80f, 100f, 30f), (audiofrom.getcomponent<audiosource>().time).tostring());
+
+//	}
+//}
