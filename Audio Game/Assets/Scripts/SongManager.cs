@@ -55,14 +55,14 @@ public class SongManager : MonoBehaviour {
 	/// </summary>
 	public void StartSong()
 	{
+        print("Started Playing Song");
+        AudioCompiler.instance.SetSongToCompile(GlobalManager.instance.GetSelectedSong());
 		Invoke("StartAudioPlayback", playDelay);
 	}
 
 	// Initialise the audiosources on the camera. Or create two GOs for spacial sound.
 	void InitAudioObjects()
 	{
-		AudioCompiler.instance.SetSongToCompile(GlobalManager.instance.GetSelectedSong());		
-
 		leftEarGO = new GameObject("Left Ear");
 		rightEarGO = new GameObject("Right Ear");
 

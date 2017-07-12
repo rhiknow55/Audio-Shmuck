@@ -61,6 +61,7 @@ public class GlobalManager : MonoBehaviour {
 	/// <param name="song"></param>
 	public void SetSelectedSong(AudioClip song)
 	{
+        print("Set selected song to " + song.name); 
 		selectedSong = song;
 	}
 

@@ -24,6 +24,14 @@ public class FloorVisualizer : MonoBehaviour {
         InitFloorTilesArray();
     }
 
+
+
+
+
+
+
+
+
 	// Initialise the floorTiles multidimensional array.
 	// Assume the scale of the floor is divisible integer
 	void InitFloorTilesArray()
@@ -38,7 +46,7 @@ public class FloorVisualizer : MonoBehaviour {
         InitFloorTiles();
     }
 
-	// Instantiate the actual tile GOs accordingly.
+    // Instantiate the actual tile GOs accordingly.
     void InitFloorTiles()
     {
         // Create a main container GO for holding ALL floor tile clones
@@ -67,7 +75,7 @@ public class FloorVisualizer : MonoBehaviour {
             // Sets this column container's parent to be the main floorTilesContainer GO
             colContainer.transform.parent = floorTilesContainer.transform;
 
-			// Rows
+            // Rows
             for (int row = 0; row < floorTiles.GetLength(1); row++)
             {
                 // The center of the first tile on the top left is a little bit right and below the actual top left pos.
@@ -78,7 +86,7 @@ public class FloorVisualizer : MonoBehaviour {
                 Vector3 tilePos = new Vector3(tileX, tileY, tileZ);
                 floorTiles[col, row] = Instantiate(tile, tilePos, Quaternion.identity, colContainer.transform);
                 floorTiles[col, row].name = "FloorTile " + (col * floorTiles.GetLength(0) + row);
-			}
+            }
 
         }
 

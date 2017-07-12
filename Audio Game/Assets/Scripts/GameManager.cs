@@ -9,5 +9,16 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour {
 
-	
+    FloorVisualizer floorVisualizer;
+
+    void Start()
+    {
+        InitVisualizers();
+
+    }
+
+    void InitVisualizers()
+    {
+        floorVisualizer = gameObject.AddComponent<FloorVisualizer>();
+    }
 }
