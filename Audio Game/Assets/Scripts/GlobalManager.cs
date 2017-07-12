@@ -20,7 +20,12 @@ public class GlobalManager : MonoBehaviour {
 	GameObject PlayAreaGO;
 	GameObject EyeCameraGO;
 
-	AudioClip selectedSong;
+    // -----ENVIRONMENT GameObjects-----
+    public GameObject FloorGO;
+    public GameObject TileGO;
+
+
+    AudioClip selectedSong;
 
 	void Awake()
 	{
@@ -122,8 +127,14 @@ public class GlobalManager : MonoBehaviour {
 	public GameObject GetPlayAreaGO() { return PlayAreaGO; }
 
 	/// <summary>
-	/// Returns the actual GO that holds the camera.
+	/// Retsurns the actual GO that holds the camera.
 	/// </summary>
 	/// <returns></returns>
 	public GameObject GetEyeCameraGO() { return EyeCameraGO; }
+
+
+
+    public GameObject GetFloorGO() { return FloorGO; }
+
+    public GameObject GetTileGO() { return TileGO; }
 }

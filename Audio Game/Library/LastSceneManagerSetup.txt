@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/VisualizeR/VisualizeR.unity
+- path: Assets/Scenes/VisualizeR.unity
   isLoaded: 1
   isActive: 1
