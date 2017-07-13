@@ -14,6 +14,7 @@ public class FloorVisualizer : MonoBehaviour {
     GameObject tile;
 	// Floor. HAS to be a square.
 	GameObject floor;
+	public float floorTileScaleYFactor;
 
 	Color[] colours = new Color[]
 	{
@@ -37,7 +38,9 @@ public class FloorVisualizer : MonoBehaviour {
         floor = GlobalManager.instance.GetFloorGO();
         tile = GlobalManager.instance.GetTileGO();
 
-        InitFloorTilesArray();
+		floorTileScaleYFactor = 5f;
+
+		InitFloorTilesArray();
 		CircularSetup();
     }
 
@@ -92,12 +95,12 @@ public class FloorVisualizer : MonoBehaviour {
 
 				if (x < y)
 				{
-					floorTiles[col, row].GetComponent<FloorTile>().Setup(x);
+					floorTiles[col, row].GetComponent<FloorTile>().Setup(x, floorTileScaleYFactor);
 					floorTiles[col, row].GetComponent<FloorTile>().SetColor(colours[x]);
 				}
 				else
 				{
-					floorTiles[col, row].GetComponent<FloorTile>().Setup(y);
+					floorTiles[col, row].GetComponent<FloorTile>().Setup(y, floorTileScaleYFactor);
 					floorTiles[col, row].GetComponent<FloorTile>().SetColor(colours[y]);
 				}
 			}
