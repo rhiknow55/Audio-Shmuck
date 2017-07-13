@@ -33,7 +33,7 @@ public class AbstractAudioCompiler : MonoBehaviour
 
 	// Editable Variables
 	int numberOfSamples = 1024;
-	int numberOfSubbands = 32;
+	public static int numberOfSubbands = 32;
 	float varianceLimit = 0.25f;
 
 	//Private Variables
