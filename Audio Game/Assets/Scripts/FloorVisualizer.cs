@@ -14,7 +14,7 @@ public class FloorVisualizer : MonoBehaviour {
     GameObject tile;
 	// Floor. HAS to be a square.
 	GameObject floor;
-	public float floorTileScaleYFactor;
+	float floorTileScaleYFactor;
 
 	Color[] colours = new Color[]
 	{
@@ -35,24 +35,30 @@ public class FloorVisualizer : MonoBehaviour {
 
     void Start()
 	{
-        floor = GlobalManager.instance.GetFloorGO();
-        tile = GlobalManager.instance.GetTileGO();
+		InitFloorVisualizer();
+		//CircularSetup();
+		FullRandomSetup();
+    }
+
+	public void InitFloorVisualizer()
+	{
+		floor = GlobalManager.instance.GetFloorGO();
+		tile = GlobalManager.instance.GetTileGO();
 
 		floorTileScaleYFactor = 5f;
 
+		// Set the number of compiler subbads to the max number of circles possible
+		maxNumOfCircles = Mathf.FloorToInt(floor.transform.localScale.x / 2);
+		//AbstractAudioCompiler.numberOfSubbands = maxNumOfCircles;
+
 		InitFloorTilesArray();
-		CircularSetup();
-    }
+	}
 
 	// calls the Setup method for all the floor tiles in the multidimensional array
 	// Center 4 floor tiles will be at freq band 0 and pulsate outwards.
 	// So the number of subbands in the AudioCompiler will be dependant on how many square-circles can be formed on the floor.
 	void CircularSetup()
 	{
-		// Set the number of compiler subbads to the max number of circles possible
-		maxNumOfCircles = Mathf.FloorToInt(floor.transform.localScale.x / 2);
-		AbstractAudioCompiler.numberOfSubbands = maxNumOfCircles;
-
 		// Sets up the center 4 floor tiles
 		int[] centerIndexes = new int[]
 		{
@@ -69,17 +75,17 @@ public class FloorVisualizer : MonoBehaviour {
 		// If the col index is 0, your freqband is 0. At 24, your freq band is 24. At 25, your freq band is 24 and at col index 49, your freqband is 0.
 
 		// Top left only
-		SetUpArray(0, floorTiles.GetLength(0) / 2, 0, floorTiles.GetLength(1) / 2, 0, 0);
+		SetUpArrayForCircular(0, floorTiles.GetLength(0) / 2, 0, floorTiles.GetLength(1) / 2, 0, 0);
 		// Top right only
-		SetUpArray(floorTiles.GetLength(0) / 2, floorTiles.GetLength(0), 0, floorTiles.GetLength(1) / 2, floorTiles.GetLength(0), 0);
+		SetUpArrayForCircular(floorTiles.GetLength(0) / 2, floorTiles.GetLength(0), 0, floorTiles.GetLength(1) / 2, floorTiles.GetLength(0), 0);
 		// Bottom left only
-		SetUpArray(0, floorTiles.GetLength(0) / 2, floorTiles.GetLength(1) / 2, floorTiles.GetLength(1), 0, floorTiles.GetLength(1));
+		SetUpArrayForCircular(0, floorTiles.GetLength(0) / 2, floorTiles.GetLength(1) / 2, floorTiles.GetLength(1), 0, floorTiles.GetLength(1));
 		// Bottom right only
-		SetUpArray(floorTiles.GetLength(0) / 2, floorTiles.GetLength(0), floorTiles.GetLength(1) / 2, floorTiles.GetLength(1), floorTiles.GetLength(0), floorTiles.GetLength(1));
+		SetUpArrayForCircular(floorTiles.GetLength(0) / 2, floorTiles.GetLength(0), floorTiles.GetLength(1) / 2, floorTiles.GetLength(1), floorTiles.GetLength(0), floorTiles.GetLength(1));
 	}
 
 	// Sets up each quadrant of the array floor tiles.
-	void SetUpArray(int _colStart, int _colEnd, int _rowStart, int _rowEnd, int _colSubtractor, int _rowSubtractor)
+	void SetUpArrayForCircular(int _colStart, int _colEnd, int _rowStart, int _rowEnd, int _colSubtractor, int _rowSubtractor)
 	{
 		for (int col = _colStart; col < _colEnd; col++)
 		{
@@ -107,7 +113,23 @@ public class FloorVisualizer : MonoBehaviour {
 		}
 	}
 
+	// Set up the tiles to have fully random frequency bands.
+	public void FullRandomSetup()
+	{
+		// Columns
+		for (int col = 0; col < floorTiles.GetLength(0); col++)
+		{
 
+			// Rows
+			for (int row = 0; row < floorTiles.GetLength(1); row++)
+			{
+				int randFreqBand = Random.Range(0, maxNumOfCircles);
+
+				floorTiles[col, row].GetComponent<FloorTile>().Setup(randFreqBand, floorTileScaleYFactor);
+			}
+
+		}
+	}
 
 
 
@@ -130,6 +152,7 @@ public class FloorVisualizer : MonoBehaviour {
     {
         // Create a main container GO for holding ALL floor tile clones
         GameObject floorTilesContainer = new GameObject("FLOORTILES");
+		floorTilesContainer.transform.parent = floor.transform;
 
         // The scales of the tile GO
         float tileZScale = tile.transform.localScale.z;
@@ -137,7 +160,8 @@ public class FloorVisualizer : MonoBehaviour {
         float tileXScale = tile.transform.localScale.x;
 
         // Getting the position vector of the the origin point on the floor GO, and therefore the 0,0 of the floorTiles array.
-        Vector3 floorPos = floor.transform.position;
+        Vector3 floorPos = floor.transform.localPosition;
+		Quaternion floorRot = floor.transform.localRotation;
         float xTopLeft = floorPos.x - floor.transform.localScale.x / 2;
         float yTopLeft = floorPos.y + floor.transform.localScale.y / 2;
         float zTopLeft = floorPos.z + floor.transform.localScale.z / 2;
@@ -163,7 +187,7 @@ public class FloorVisualizer : MonoBehaviour {
 
                 // Declare the changing position vector for every tile
                 Vector3 tilePos = new Vector3(tileX, tileY, tileZ);
-                GameObject obj = Instantiate(tile, tilePos, Quaternion.identity, colContainer.transform);
+                GameObject obj = Instantiate(tile, tilePos, floorRot, colContainer.transform);
 				// Set the GO name for differentiation
                 obj.name = "FloorTile " + (col * floorTiles.GetLength(0) + row);
 				// Add the FloorTile script to every floor tile
