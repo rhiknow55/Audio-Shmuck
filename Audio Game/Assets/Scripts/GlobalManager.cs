@@ -21,7 +21,7 @@ public class GlobalManager : MonoBehaviour {
 	GameObject EyeCameraGO;
 
     // -----ENVIRONMENT GameObjects-----
-    public GameObject FloorGO;
+    public GameObject FloorPrefab;
     public GameObject TileGO;
 
 
@@ -135,7 +135,7 @@ public class GlobalManager : MonoBehaviour {
 
 
 
-    public GameObject GetFloorGO() { return FloorGO; }
+    public GameObject GetFloorPrefab() { return FloorPrefab; }
 
     public GameObject GetTileGO() { return TileGO; }
 }

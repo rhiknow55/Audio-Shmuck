@@ -109,7 +109,7 @@ MonoBehaviour:
   m_MinSize: {x: 711, y: 492}
   m_MaxSize: {x: 18006, y: 14042}
   vertical: 0
-  controlID: 94
+  controlID: 78
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_MinSize: {x: 434, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 1
-  controlID: 95
+  controlID: 79
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 96
+  controlID: 80
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_MinSize: {x: 434, y: 271}
   m_MaxSize: {x: 14004, y: 10021}
   vertical: 0
-  controlID: 35
+  controlID: 11
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -416,10 +416,10 @@ MonoBehaviour:
     width: 423
     height: 605
   m_TreeViewState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 4c91ffff2894ffff1096fffff897ffffd49affffc89bffff9c9fffff36baffff12bdffff0abeffff5ef9ffffd8fbffff000000001e34000010360000
+    scrollPos: {x: 0, y: 36}
+    m_SelectedIDs: c6350000
+    m_LastClickedID: 13766
+    m_ExpandedIDs: ba95fbff1045fcff1445fcff60b5fcfff4bafcff28befcffa89cfdff409efdffccabfdffd0abfdff7ad8fdff7ed8fdfffc4cfeff1c5ffeff18e9ffff74f6ffffd8fbffff0000000078320000503300009633000008340000183400001e3400002e34000076340000003500004835000010360000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -469,14 +469,14 @@ MonoBehaviour:
     width: 1544
     height: 605
   m_SceneLighting: 1
-  lastFramingTime: 2288.893812239629
+  lastFramingTime: 10247.514070382711
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -4.693025, y: 5.4464893, z: -1.3910522}
+    m_Target: {x: 13.269945, y: 3.9270267, z: 1.0321426}
     speed: 2
-    m_Value: {x: -4.693025, y: 5.4464893, z: -1.3910522}
+    m_Value: {x: 13.269945, y: 3.9270267, z: 1.0321426}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -499,13 +499,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.13218006, y: -0.06954198, z: 0.009338265, w: 0.9887528}
+    m_Target: {x: 0.12243513, y: 0.4030049, z: -0.054452874, w: 0.90537614}
     speed: 2
-    m_Value: {x: 0.13217829, y: -0.069541045, z: 0.00933814, w: 0.9887395}
+    m_Value: {x: 0.12243058, y: 0.40298992, z: -0.054450847, w: 0.90534246}
   m_Size:
-    m_Target: 46.698208
+    m_Target: 61.97965
     speed: 2
-    m_Value: 46.698208
+    m_Value: 61.97965
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -697,18 +697,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts
+    - Assets/Prefabs
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Prefabs
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Documents\GitHub\Audio-Shmuck\Audio Game
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 262a0000
-    m_LastClickedID: 10790
+    m_SelectedIDs: 42290000
+    m_LastClickedID: 10562
     m_ExpandedIDs: 000000003028000070290000982a00008a2b0000a02b0000dc2e0000862f00008c2f0000bc3b0000be3b0000c03b0000c23b0000c43b0000c63b0000c83b0000ca3b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -768,15 +768,15 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: da210000c0240000c0250000e024000000000000788cffffd024000006d5fdffae3e00007a2c00003e260000780800002e26000070efffff
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: WallVisualizer
-      m_OriginalName: WallVisualizer
+      m_Name: Singleton
+      m_OriginalName: Singleton
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 38430
+      m_UserData: 37248
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0

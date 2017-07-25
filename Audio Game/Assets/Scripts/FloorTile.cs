@@ -19,9 +19,9 @@ public class FloorTile : MonoBehaviour {
 		ScaleVertically();
 	}
 
-	public void Setup(int _freqBad, float _factor)
+	public void Setup(int _freqBand, float _factor)
 	{
-		freqBand = _freqBad;
+		freqBand = _freqBand;
 		factor = _factor;
 		rend = gameObject.GetComponent<Renderer>();
 	}

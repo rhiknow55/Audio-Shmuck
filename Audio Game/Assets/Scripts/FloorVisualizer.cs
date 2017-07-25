@@ -11,11 +11,6 @@ using UnityEngine;
 /// </summary>
 public class FloorVisualizer : MonoBehaviour {
 
-    GameObject tile;
-	// Floor. HAS to be a square.
-	GameObject floor;
-	float floorTileScaleYFactor;
-
 	Color[] colours = new Color[]
 	{
 		Color.black,
@@ -30,25 +25,58 @@ public class FloorVisualizer : MonoBehaviour {
 		Color.grey
 	};
 
+	GameObject tile;
+	// Floor. HAS to be a square.
+	float floorTileScaleYFactor;
+	Transform thisTransform;
+
+	Vector3 rotateAxis;
+	float rotateAngle;
+
     private GameObject[,] floorTiles;
 	int maxNumOfCircles;
 
     void Start()
 	{
+		// By declaring the floor transform here once, we prevent the need to call this.transform (it uses a lot of performance)
+		thisTransform = this.GetComponent<Transform>();
+
 		InitFloorVisualizer();
 		//CircularSetup();
 		FullRandomSetup();
-    }
+
+		RotateVisualizers();
+	}
+
+	public void Setup(Vector3 _axis, float _angle)
+	{
+		rotateAxis = _axis;
+		rotateAngle = _angle;
+	}
+
+	public void RotateVisualizers()
+	{
+		// Columns
+		for (int col = 0; col < floorTiles.GetLength(0); col++)
+		{
+
+			// Rows
+			for (int row = 0; row < floorTiles.GetLength(1); row++)
+			{
+				floorTiles[col, row].transform.RotateAround(this.transform.localPosition, rotateAxis, rotateAngle);
+			}
+
+		}
+	}
 
 	public void InitFloorVisualizer()
 	{
-		floor = GlobalManager.instance.GetFloorGO();
 		tile = GlobalManager.instance.GetTileGO();
 
 		floorTileScaleYFactor = 5f;
 
 		// Set the number of compiler subbads to the max number of circles possible
-		maxNumOfCircles = Mathf.FloorToInt(floor.transform.localScale.x / 2);
+		maxNumOfCircles = Mathf.FloorToInt(thisTransform.localScale.x / 2);
 		//AbstractAudioCompiler.numberOfSubbands = maxNumOfCircles;
 
 		InitFloorTilesArray();
@@ -123,7 +151,7 @@ public class FloorVisualizer : MonoBehaviour {
 			// Rows
 			for (int row = 0; row < floorTiles.GetLength(1); row++)
 			{
-				int randFreqBand = Random.Range(0, maxNumOfCircles);
+				int randFreqBand = Random.Range(0, AudioCompiler.freqSubbandsInstant.Length);
 
 				floorTiles[col, row].GetComponent<FloorTile>().Setup(randFreqBand, floorTileScaleYFactor);
 			}
@@ -137,8 +165,8 @@ public class FloorVisualizer : MonoBehaviour {
 	// Assume the scale of the floor is divisible integer
 	void InitFloorTilesArray()
 	{
-		int z = Mathf.FloorToInt(floor.transform.localScale.z / tile.transform.localScale.z);
-		int x = Mathf.FloorToInt(floor.transform.localScale.x / tile.transform.localScale.x);
+		int z = Mathf.FloorToInt(thisTransform.localScale.z / tile.transform.localScale.z);
+		int x = Mathf.FloorToInt(thisTransform.localScale.x / tile.transform.localScale.x);
         
 
         floorTiles = new GameObject[z, x];
@@ -152,7 +180,7 @@ public class FloorVisualizer : MonoBehaviour {
     {
         // Create a main container GO for holding ALL floor tile clones
         GameObject floorTilesContainer = new GameObject("FLOORTILES");
-		floorTilesContainer.transform.parent = floor.transform;
+		floorTilesContainer.transform.parent = thisTransform;
 
         // The scales of the tile GO
         float tileZScale = tile.transform.localScale.z;
@@ -160,11 +188,11 @@ public class FloorVisualizer : MonoBehaviour {
         float tileXScale = tile.transform.localScale.x;
 
         // Getting the position vector of the the origin point on the floor GO, and therefore the 0,0 of the floorTiles array.
-        Vector3 floorPos = floor.transform.localPosition;
-		Quaternion floorRot = floor.transform.localRotation;
-        float xTopLeft = floorPos.x - floor.transform.localScale.x / 2;
-        float yTopLeft = floorPos.y + floor.transform.localScale.y / 2;
-        float zTopLeft = floorPos.z + floor.transform.localScale.z / 2;
+        Vector3 floorPos = thisTransform.localPosition;
+		Quaternion floorRot = thisTransform.localRotation;
+        float xTopLeft = floorPos.x - thisTransform.localScale.x / 2;
+        float yTopLeft = floorPos.y + thisTransform.localScale.y / 2;
+        float zTopLeft = floorPos.z + thisTransform.localScale.z / 2;
         Vector3 floorTopLeft = new Vector3(xTopLeft, yTopLeft, zTopLeft);
 
         // the y pos of the tiles is constant, so declare it outside the loops (more efficient!)
