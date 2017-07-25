@@ -10,7 +10,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
 	public Transform staticFloorTransform;
-	public Transform[] rotatedFloorTransforms;
+	public Transform dynamicTransformsParent;
 
 	public bool staticFloor;
 	public bool rotatedFloor;
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour {
 
     void InitVisualizers()
     {
-		if (staticFloor) InitStaticFloor();
+		//if (staticFloor) InitStaticFloor();
 
 		if (rotatedFloor) InitRotatedFloor();
 
@@ -39,13 +39,13 @@ public class GameManager : MonoBehaviour {
 	
 	void InitRotatedFloor()
 	{
-		foreach(Transform rotatedFloorTransform in rotatedFloorTransforms)
+		foreach(Transform childTransform in dynamicTransformsParent)
 		{
-			GameObject floorGO = Instantiate(GlobalManager.instance.GetFloorPrefab(), rotatedFloorTransform.position, Quaternion.identity);
+			GameObject floorGO = Instantiate(GlobalManager.instance.GetFloorPrefab(), childTransform.position, Quaternion.identity);
 
 			floorGO.AddComponent<FloorVisualizer>();
 
-			floorGO.GetComponent<FloorVisualizer>().Setup(rotatedFloorTransform.localRotation.eulerAngles, 90);
+			floorGO.GetComponent<FloorVisualizer>().Setup(childTransform.localRotation.eulerAngles, 45);
 		}
 	}
 
