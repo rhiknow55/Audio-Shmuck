@@ -19,8 +19,16 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         InitVisualizers();
-
+		AttachRenderLimiterToCamera();
     }
+
+	void AttachRenderLimiterToCamera()
+	{
+		if (!GlobalManager.instance.GetEyeCameraGO().GetComponent<RenderLimiter>()) GlobalManager.instance.GetEyeCameraGO().AddComponent<RenderLimiter>();
+	}
+
+
+
 
     void InitVisualizers()
     {
@@ -39,13 +47,16 @@ public class GameManager : MonoBehaviour {
 	
 	void InitRotatedFloor()
 	{
-		foreach(Transform childTransform in dynamicTransformsParent)
+		foreach(Transform containerTransform in dynamicTransformsParent)
 		{
-			GameObject floorGO = Instantiate(GlobalManager.instance.GetFloorPrefab(), childTransform.position, Quaternion.identity);
+			foreach (Transform childTransform in containerTransform)
+			{
+				GameObject floorGO = Instantiate(GlobalManager.instance.GetFloorPrefab(), childTransform.position, Quaternion.identity);
 
-			floorGO.AddComponent<FloorVisualizer>();
+				floorGO.AddComponent<FloorVisualizer>();
 
-			floorGO.GetComponent<FloorVisualizer>().Setup(childTransform.localRotation.eulerAngles, 45);
+				floorGO.GetComponent<FloorVisualizer>().Setup(childTransform.localRotation.eulerAngles, childTransform.eulerAngles.z);
+			}
 		}
 	}
 
