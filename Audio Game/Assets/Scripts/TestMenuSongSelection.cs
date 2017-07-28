@@ -20,6 +20,6 @@ public class TestMenuSongSelection : MonoBehaviour {
     {
         AudioClip song = SongManager.instance.songs[(int)chosenSongNumber];
         GlobalManager.instance.SetSelectedSong(song);
-        SongManager.instance.StartSong();
+        
     }
 }

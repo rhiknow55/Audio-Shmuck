@@ -13,7 +13,7 @@ public class SongManager : MonoBehaviour {
 
 	public static SongManager instance;
 
-	public AudioClip[] songs;
+	public List<AudioClip> songs;
 
 	public static float playDelay = 3f;
 
@@ -58,6 +58,12 @@ public class SongManager : MonoBehaviour {
         print("Started Playing Song");
         AudioCompiler.instance.SetSongToCompile(GlobalManager.instance.GetSelectedSong());
 		Invoke("StartAudioPlayback", playDelay);
+	}
+
+	public void AddSong(AudioClip _clip)
+	{
+		songs.Add(_clip);
+		print("Song added : " + _clip.name);
 	}
 
 	// Initialise the audiosources on the camera. Or create two GOs for spacial sound.
