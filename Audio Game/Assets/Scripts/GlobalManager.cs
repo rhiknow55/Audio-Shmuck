@@ -25,7 +25,7 @@ public class GlobalManager : MonoBehaviour {
     public GameObject TileGO;
 
 
-    AudioClip selectedSong;
+    
 
 	void Awake()
 	{
@@ -55,24 +55,7 @@ public class GlobalManager : MonoBehaviour {
 		InitVRTKGameObjects();
 	}
 
-	/// <summary>
-	/// Set the selected song to use for everything in this playthrough.
-	/// </summary>
-	/// <param name="song"></param>
-	public void SetSelectedSong(AudioClip song)
-	{
-        print("Set selected song to " + song.name); 
-		selectedSong = song;
-	}
-
-	/// <summary>
-	/// Returns the current selected song.
-	/// </summary>
-	/// <returns></returns>
-	public AudioClip GetSelectedSong()
-	{
-		return selectedSong;
-	}
+	
 
 
 	void InitVRTKGameObjects()

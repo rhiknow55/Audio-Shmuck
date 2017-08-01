@@ -5,8 +5,7 @@ using System.IO;
 using UnityEngine;
 
 public class SongChoiceMenuEditor : EditorWindow {
-
-	[MenuItem("Designate Music Folder")]
+	
 	public static IEnumerator DesignateMusicFolder()
 	{
 		string path = EditorUtility.OpenFolderPanel("Designate music folder", "", "");
@@ -49,12 +48,11 @@ public class SongChoiceMenuEditor : EditorWindow {
 
 				if (convertedClip != null) AddSongToGlobalManager(convertedClip);
 
-				GlobalManager.instance.SetSelectedSong(convertedClip);
-				SongManager.instance.StartSong();
+				
 			}
 		}
 
-
+		SongChoiceMenu.instance.SpawnCassettesFromSongs();
 	}
 
 	static void AddSongToGlobalManager(AudioClip _clip)

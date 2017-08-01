@@ -14,6 +14,7 @@ public class SongManager : MonoBehaviour {
 	public static SongManager instance;
 
 	public List<AudioClip> songs;
+	AudioClip selectedSong;
 
 	public static float playDelay = 3f;
 
@@ -50,13 +51,23 @@ public class SongManager : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Set the selected song to use for everything in this playthrough.
+	/// </summary>
+	/// <param name="song"></param>
+	public void SetSelectedSong(AudioClip song)
+	{
+		print("Set selected song to " + song.name);
+		selectedSong = song;
+	}
+
+	/// <summary>
 	/// Starts the AudioCompiler playthrough of the set song. 
 	/// Then after playDelay amount of time, starts actual playback.
 	/// </summary>
-	public void StartSong()
+	public void PlaySong()
 	{
         print("Started Playing Song");
-        AudioCompiler.instance.SetSongToCompile(GlobalManager.instance.GetSelectedSong());
+        AudioCompiler.instance.SetSongToCompile(selectedSong);
 		Invoke("StartAudioPlayback", playDelay);
 	}
 
@@ -88,7 +99,7 @@ public class SongManager : MonoBehaviour {
 	// Starts the corresponding AudioPlaybacks
 	void StartAudioPlayback()
 	{
-		leftPlayback.BeginPlayback(GlobalManager.instance.GetSelectedSong(), leftAudioSource);
-		rightPlayback.BeginPlayback(GlobalManager.instance.GetSelectedSong(), rightAudioSource);
+		leftPlayback.BeginPlayback(selectedSong, leftAudioSource);
+		rightPlayback.BeginPlayback(selectedSong, rightAudioSource);
 	}
 }
