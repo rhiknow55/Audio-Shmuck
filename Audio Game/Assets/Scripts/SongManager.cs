@@ -18,6 +18,8 @@ public class SongManager : MonoBehaviour {
 
 	public static float playDelay = 3f;
 
+	public static bool songIsPlaying;
+
 	AudioPlayback leftPlayback, rightPlayback;
 	AudioSource leftAudioSource, rightAudioSource;
 	GameObject leftEarGO, rightEarGO;
@@ -69,6 +71,8 @@ public class SongManager : MonoBehaviour {
         print("Started Playing Song");
         AudioCompiler.instance.SetSongToCompile(selectedSong);
 		Invoke("StartAudioPlayback", playDelay);
+
+		songIsPlaying = true;
 	}
 
 	public void AddSong(AudioClip _clip)

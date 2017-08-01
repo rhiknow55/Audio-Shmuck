@@ -30,7 +30,7 @@ public class SongChoiceMenu : MonoBehaviour {
 
 	void Start()
 	{
-		cassettes = new List<GameObject>();
+		
 
 	}
 
@@ -43,7 +43,10 @@ public class SongChoiceMenu : MonoBehaviour {
 	// Spawn cassette tapes after song
 	public void SpawnCassettesFromSongs()
 	{
-		foreach(AudioClip clip in SongManager.instance.songs)
+		// Create a new list everytime this method is called
+		cassettes = new List<GameObject>();
+
+		foreach (AudioClip clip in SongManager.instance.songs)
 		{
 			GameObject obj = Instantiate(cassettePrefab, cassetteSpawn);
 
