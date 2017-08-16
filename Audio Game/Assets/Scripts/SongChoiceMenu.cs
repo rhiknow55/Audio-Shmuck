@@ -30,7 +30,7 @@ public class SongChoiceMenu : MonoBehaviour {
 
 	void Start()
 	{
-		
+		if(!VRorFPS.instance.usingVR) SpawnCassettesFromSongs();
 
 	}
 

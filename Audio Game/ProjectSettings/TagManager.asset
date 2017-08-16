@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Podium
+  - Cassette
   layers:
   - Default
   - TransparentFX

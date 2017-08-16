@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 65515522306790670}
   m_Layer: 0
   m_Name: Cassette Tape
-  m_TagString: Untagged
+  m_TagString: Cassette
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

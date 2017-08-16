@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRTK;
 
 /// <summary>
 /// @author Ryan Oh
@@ -16,7 +17,17 @@ public class GameManager : MonoBehaviour {
 	public bool rotatedFloor;
 	public bool rotatingFloorVisualizer;
 
-    void Start()
+	void Awake()
+	{
+		if(VRorFPS.instance.usingVR) VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange(this);
+	}
+
+	void OnDestroy()
+	{
+		if(VRorFPS.instance.usingVR) VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
+	}
+
+	void Start()
     {
         InitVisualizers();
 		AttachRenderLimiterToCamera();
@@ -24,7 +35,7 @@ public class GameManager : MonoBehaviour {
 
 	void AttachRenderLimiterToCamera()
 	{
-		if (!GlobalManager.instance.GetEyeCameraGO().GetComponent<RenderLimiter>()) GlobalManager.instance.GetEyeCameraGO().AddComponent<RenderLimiter>();
+		if (!Camera.main.gameObject.GetComponent<RenderLimiter>()) Camera.main.gameObject.AddComponent<RenderLimiter>();
 	}
 
 
