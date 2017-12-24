@@ -24,6 +24,7 @@ public class AttractTo : MonoBehaviour
 	{
 		if(attractedTo != null)
 		{
+			// Attraction to attractor.
 			Vector3 direction = attractedTo.position - transform.position;
 			_rigidbody.AddForce(strengthOfAttraction * direction);
 

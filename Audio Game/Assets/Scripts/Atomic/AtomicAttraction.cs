@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AtomicAttraction : MonoBehaviour 
+public class AtomicAttraction : MonoBehaviour
 {
 	#region Variables
 	[Tooltip("The atom prefab")]
@@ -32,10 +32,21 @@ public class AtomicAttraction : MonoBehaviour
 	[Header("Variables for setting up atoms")]
 	public float strengthOfAttraction;
 	public float maxMagnitude;
-	
-	
+
+	[Header("Variables for explicit audio visualization things.")]
+	public float audioScaleMultiplier;
+	public float audioEmissionMultiplier;
+	[Range(0.0f, 1.0f)]
+	public float emissionThreshold;
+	public Material material;
+
+
 	private GameObject[] attractorList, atomList;
 	private float[] atomScaleSet;
+
+	private Material[] sharedMaterials;
+	private Color[] sharedColors;
+
 	#endregion
 
 	#region Monobehaviour Methods
@@ -44,9 +55,11 @@ public class AtomicAttraction : MonoBehaviour
 		attractorList = new GameObject[attractPoints.Length];
 		atomList = new GameObject[attractPoints.Length * numberOfAtoms];
 		atomScaleSet = new float[attractPoints.Length * numberOfAtoms];
-		
+		sharedMaterials = new Material[attractPoints.Length * numberOfAtoms];
+		sharedColors = new Color[attractPoints.Length * numberOfAtoms];
+
 		// Instantiate all the attractors
-		for(int i = 0; i < attractPoints.Length; ++i)
+		for (int i = 0; i < attractPoints.Length; ++i)
 		{
 			GameObject attractorInstance = Instantiate(attractorPrefab);
 			attractorInstance.name = "Attractor: " + i;
@@ -64,6 +77,12 @@ public class AtomicAttraction : MonoBehaviour
 				name = "Atom Containter: " + i
 			};
 			atomContainer.transform.parent = this.transform;
+
+			// Set up the same material for all atoms of the same attractor
+			Material attractorMaterial = new Material(material);
+			sharedMaterials[i] = attractorMaterial;
+			float evaluateStep = 1.0f / attractPoints.Length;
+			sharedColors[i] = gradient.Evaluate(evaluateStep * i);
 
 			// Instantiate all the atoms of the attractors
 			GameObject atomInstance;
@@ -87,14 +106,22 @@ public class AtomicAttraction : MonoBehaviour
 				if (useGravity)
 				{
 					atomInstance.GetComponent<Rigidbody>().useGravity = true;
-				}else
+				} else
 				{
 					atomInstance.GetComponent<Rigidbody>().useGravity = false;
 				}
 
 				atomInstance.transform.parent = atomContainer.transform;
+
+				// Set atom material
+				atomInstance.GetComponent<MeshRenderer>().material = sharedMaterials[i];
 			}
 		}
+	}
+
+	void Update()
+	{
+		AtomBehaviour();
 	}
 	#endregion
 
@@ -116,6 +143,38 @@ public class AtomicAttraction : MonoBehaviour
 								transform.position.z + (spacingBetweenAttractPoints * i * spacingDirection.z));
 
 			Gizmos.DrawSphere(pos, scaleAttractPoints);
+		}
+	}
+
+	// What every atom does
+	private void AtomBehaviour()
+	{
+		for(int i = 0; i < attractPoints.Length; ++i)
+		{
+			// Change Material color and therefore all atoms.
+			if (AudioCompiler.freqSubbandsInstant[attractPoints[i]] >= emissionThreshold)
+			{
+				Color atomColor = new Color(sharedColors[i].r * AudioCompiler.freqSubbandsInstant[i] * audioEmissionMultiplier,
+										sharedColors[i].g * AudioCompiler.freqSubbandsInstant[i] * audioEmissionMultiplier,
+										sharedColors[i].b * AudioCompiler.freqSubbandsInstant[i] * audioEmissionMultiplier, 1);
+
+				sharedMaterials[i].SetColor("_EmissionColor", atomColor);
+			}
+			else
+			{
+				Color atomColor = new Color(0, 0, 0, 1);
+				sharedMaterials[i].SetColor("_EmissionColor", atomColor);
+			}
+
+			for (int j = 0; j < numberOfAtoms; ++j)
+			{
+				int currentAtomCount = i * numberOfAtoms + j;
+
+				// Change ScaleSet, and therefore the scale of all atoms
+				atomList[currentAtomCount].transform.localScale = new Vector3(atomScaleSet[currentAtomCount] + AudioCompiler.freqSubbandsInstant[i] * audioScaleMultiplier,
+					atomScaleSet[currentAtomCount] + AudioCompiler.freqSubbandsInstant[i] * audioScaleMultiplier,
+					atomScaleSet[currentAtomCount] + AudioCompiler.freqSubbandsInstant[i] * audioScaleMultiplier);
+			}
 		}
 	}
 	#endregion
