@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class AtomicAttraction : MonoBehaviour
 {
 	#region Variables
+	[Tooltip("The audio playback GameObject. The audio compilation to visualize!")]
+	public AudioPlayback audioPlayback;
+
 	[Tooltip("The atom prefab")]
 	public GameObject atomPrefab;
 	[Tooltip("Attractor prefab.")]
@@ -46,6 +50,13 @@ public class AtomicAttraction : MonoBehaviour
 
 	private Material[] sharedMaterials;
 	private Color[] sharedColors;
+
+	public Color defaultColor;
+	public Color correctInputColor;
+	public Color incorrectInputColor;
+	public float inputEffectLength;
+	private bool correctInput, incorrectInput;
+	private float correctEffectTime, incorrectEffectTime;
 
 	#endregion
 
@@ -121,11 +132,22 @@ public class AtomicAttraction : MonoBehaviour
 
 	void Update()
 	{
-		AtomBehaviour();
+		if(audioPlayback.AudioIsPlaying()) AtomBehaviour();
 	}
 	#endregion
 
 	#region Public Methods
+	public void CorrectInputEffect()
+	{
+		correctEffectTime = Time.time;
+		correctInput = true;
+	}
+
+	public void IncorrectInputEffect()
+	{
+		incorrectEffectTime = Time.time;
+		incorrectInput = true;
+	}
 	#endregion
 
 	#region Private/Protected Methods
@@ -152,28 +174,57 @@ public class AtomicAttraction : MonoBehaviour
 		for(int i = 0; i < attractPoints.Length; ++i)
 		{
 			// Change Material color and therefore all atoms.
-			if (AudioCompiler.freqSubbandsInstant[attractPoints[i]] >= emissionThreshold)
-			{
-				Color atomColor = new Color(sharedColors[i].r * AudioCompiler.freqSubbandsInstant[i] * audioEmissionMultiplier,
-										sharedColors[i].g * AudioCompiler.freqSubbandsInstant[i] * audioEmissionMultiplier,
-										sharedColors[i].b * AudioCompiler.freqSubbandsInstant[i] * audioEmissionMultiplier, 1);
+			Color atomColor;
 
-				sharedMaterials[i].SetColor("_EmissionColor", atomColor);
+			if (audioPlayback.getFreqSubbandsInstant()[attractPoints[i]] >= emissionThreshold)
+			{
+				atomColor = new Color(sharedColors[i].r * audioPlayback.getFreqSubbandsInstant()[i] * audioEmissionMultiplier,
+										sharedColors[i].g * audioPlayback.getFreqSubbandsInstant()[i] * audioEmissionMultiplier,
+										sharedColors[i].b * audioPlayback.getFreqSubbandsInstant()[i] * audioEmissionMultiplier, 1);
 			}
 			else
 			{
-				Color atomColor = new Color(0, 0, 0, 1);
-				sharedMaterials[i].SetColor("_EmissionColor", atomColor);
+				atomColor = defaultColor;
 			}
+
+			// If correct or incorrect input has occured, overwrite the atom color
+			if (correctInput)
+			{
+				float timeElapsed = Time.time - correctEffectTime;
+
+				if (timeElapsed >= inputEffectLength)
+				{
+					correctInput = false;
+				}
+				else
+				{
+					atomColor = Color.Lerp(correctInputColor, defaultColor, timeElapsed / inputEffectLength);
+				}
+			}
+			else if (incorrectInput)
+			{
+				float timeElapsed = Time.time - incorrectEffectTime;
+
+				if (timeElapsed >= inputEffectLength)
+				{
+					incorrectInput = false;
+				}
+				else
+				{
+					atomColor = Color.Lerp(incorrectInputColor, defaultColor, timeElapsed / inputEffectLength);
+				}
+			}
+
+			sharedMaterials[i].SetColor("_EmissionColor", atomColor);
 
 			for (int j = 0; j < numberOfAtoms; ++j)
 			{
 				int currentAtomCount = i * numberOfAtoms + j;
 
 				// Change ScaleSet, and therefore the scale of all atoms
-				atomList[currentAtomCount].transform.localScale = new Vector3(atomScaleSet[currentAtomCount] + AudioCompiler.freqSubbandsInstant[i] * audioScaleMultiplier,
-					atomScaleSet[currentAtomCount] + AudioCompiler.freqSubbandsInstant[i] * audioScaleMultiplier,
-					atomScaleSet[currentAtomCount] + AudioCompiler.freqSubbandsInstant[i] * audioScaleMultiplier);
+				atomList[currentAtomCount].transform.localScale = new Vector3(atomScaleSet[currentAtomCount] + audioPlayback.getFreqSubbandsInstant()[i] * audioScaleMultiplier,
+					atomScaleSet[currentAtomCount] + audioPlayback.getFreqSubbandsInstant()[i] * audioScaleMultiplier,
+					atomScaleSet[currentAtomCount] + audioPlayback.getFreqSubbandsInstant()[i] * audioScaleMultiplier);
 			}
 		}
 	}

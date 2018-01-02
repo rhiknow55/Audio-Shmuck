@@ -151,7 +151,7 @@ public class FloorVisualizer : MonoBehaviour {
 			// Rows
 			for (int row = 0; row < floorTiles.GetLength(1); row++)
 			{
-				int randFreqBand = Random.Range(0, AudioCompiler.freqSubbandsInstant.Length);
+				int randFreqBand = Random.Range(0, AudioCompiler.instance.getFreqSubbandsInstant().Length);
 
 				floorTiles[col, row].GetComponent<FloorTile>().Setup(randFreqBand, floorTileScaleYFactor);
 			}

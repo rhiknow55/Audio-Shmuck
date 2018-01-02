@@ -10,6 +10,8 @@ public class AudioCompiler : AbstractAudioCompiler
 {
 	public static AudioCompiler instance;
 
+	private bool isPlaying;
+
 	void Awake()
 	{
 		// Check if instance already exists
@@ -22,13 +24,25 @@ public class AudioCompiler : AbstractAudioCompiler
 			Destroy(this.gameObject);
 	}
 
+	protected override void Start()
+	{
+		base.Start();
+		audioSource.Play();
+		isPlaying = true;
+	}
+
 	/// <summary>
 	/// Specify the song to compile for this playthrough.
 	/// </summary>
 	/// <param name="_song"></param>
-	public void SetSongToCompile(AudioClip _song)
+	public void StartAudioCompilation(AudioClip _song)
 	{
 		audioSource.clip = _song;
 		audioSource.Play();
+	}
+
+	public bool AudioIsPlaying()
+	{
+		return isPlaying;
 	}
 }

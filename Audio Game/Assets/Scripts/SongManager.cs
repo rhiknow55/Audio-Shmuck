@@ -69,7 +69,7 @@ public class SongManager : MonoBehaviour {
 	public void PlaySong()
 	{
         print("Started Playing Song");
-        AudioCompiler.instance.SetSongToCompile(selectedSong);
+        AudioCompiler.instance.StartAudioCompilation(selectedSong);
 		Invoke("StartAudioPlayback", playDelay);
 
 		songIsPlaying = true;

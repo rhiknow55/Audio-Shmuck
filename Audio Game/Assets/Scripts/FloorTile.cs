@@ -28,7 +28,7 @@ public class FloorTile : MonoBehaviour {
 
 	void ScaleVertically()
 	{
-		float newScaleY = initialScaleY + AudioCompiler.freqSubbandsInstant[freqBand] * factor;
+		float newScaleY = initialScaleY + AudioCompiler.instance.getFreqSubbandsInstant()[freqBand] * factor;
 
 		transform.localScale = new Vector3(transform.localScale.x, newScaleY, transform.localScale.z);
 	}

@@ -26,7 +26,7 @@ public class AbstractAudioCompiler : MonoBehaviour
     private float[] samplesLeft = new float[1024];
 	private float[] samplesRight = new float[1024];
 	private float[] samplesStereo = new float[1024];
-	public static float[] freqSubbandsInstant;
+	public float[] freqSubbandsInstant;
 	private float[][] freqSubbandsAverageLocal;
 	private float[] variances;
 	private float[] constantC;
@@ -40,6 +40,8 @@ public class AbstractAudioCompiler : MonoBehaviour
 	int averageLocalIndex;
 	int count = 1;
 	protected AudioSource audioSource;
+
+	private float lastFreqSpikeTime;
 
 	protected virtual void Start () {
         audioSource = GetComponent<AudioSource>();
@@ -128,6 +130,8 @@ public class AbstractAudioCompiler : MonoBehaviour
 			}
 		}
 
+		if(spikeList.Count > 0) lastFreqSpikeTime = Time.time;
+
 		return spikeList;
 	}
 
@@ -165,5 +169,15 @@ public class AbstractAudioCompiler : MonoBehaviour
 		}
 
 		return highestFreq;
+	}
+
+	public float[] getFreqSubbandsInstant()
+	{
+		return freqSubbandsInstant;
+	}
+
+	public float GetLastFreqSpikeTime()
+	{
+		return lastFreqSpikeTime;
 	}
 }

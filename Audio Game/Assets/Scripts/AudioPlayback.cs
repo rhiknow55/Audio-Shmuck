@@ -12,7 +12,12 @@ public class AudioPlayback : AbstractAudioCompiler
 {
     public static AudioPlayback instance;
 
-    void Awake()
+	bool isPlaying; // For the AtomicAttraction script to know to update or not.
+
+	[Tooltip("The leeway given when inputting. Input must be within errorWindow before and after.")]
+	public float errorWindow;
+
+	void Awake()
 	{
 		// Check if instance already exists
 		if (instance == null)
@@ -24,6 +29,13 @@ public class AudioPlayback : AbstractAudioCompiler
 			Destroy(this.gameObject);
 	}
 
+	protected override void Start()
+	{
+		base.Start();
+
+		StartCoroutine(DelayPlayback());
+	}
+
 	/// <summary>
 	/// Begins the playback of "song" from "source"
 	/// </summary>
@@ -33,5 +45,18 @@ public class AudioPlayback : AbstractAudioCompiler
 	{
 		_source.clip = _song;
 		_source.Play();
+	}
+
+	private IEnumerator DelayPlayback()
+	{
+		yield return new WaitForSeconds(errorWindow);
+
+		audioSource.Play();
+		isPlaying = true;
+	}
+
+	public bool AudioIsPlaying()
+	{
+		return isPlaying;
 	}
 }
