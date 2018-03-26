@@ -96,8 +96,7 @@ public class InputHandler : MonoBehaviour
 			return;
 		}
 
-		if (Time.time - compilerHistogram[currentFreqSpikeIndex] >= 0.0f &&
-			Time.time - playbackHistogram[currentFreqSpikeIndex] <= errorWindow)
+		if (Mathf.Abs(Time.time - playbackHistogram[currentFreqSpikeIndex]) <= errorWindow)
 		{
 			// Correct input
 			atomicAttraction.CorrectInputEffect();

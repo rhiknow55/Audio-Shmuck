@@ -7,7 +7,13 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: Assets/Beatter Detection/Test Scene.unity
-  - enabled: 1
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Beatter Detection/Menu Scene.unity
-  - enabled: 1
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Beatter Detection/BeatBox Rpg.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Atomic.unity
+    guid: dd5934f5e1d1c7d4a8daf72688d596f7

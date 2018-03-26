@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freqSubbandsInstant: []
-  errorWindow: 0.5
+  errorWindow: 0.1
 --- !u!82 &87174969
 AudioSource:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: cddc43881819b204eb44d965fd4f6862,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 75d6d77c3e0cfc4488e6862a2e5e3837, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1342,7 +1342,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243798199415358274, guid: cddc43881819b204eb44d965fd4f6862,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 75d6d77c3e0cfc4488e6862a2e5e3837, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
