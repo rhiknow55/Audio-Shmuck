@@ -30,6 +30,9 @@ public class InputHandler : MonoBehaviour
 	}
 	private void Update()
 	{
+		if (!AudioPlayback.instance.AudioIsPlaying())
+			return;
+
 		if (playbackHistogram.Count > currentFreqSpikeIndex && compilerHistogram.Count > currentFreqSpikeIndex)
 		{
 			availableSpike = true;

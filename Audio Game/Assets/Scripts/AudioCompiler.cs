@@ -24,21 +24,14 @@ public class AudioCompiler : AbstractAudioCompiler
 			Destroy(this.gameObject);
 	}
 
-	protected override void Start()
-	{
-		base.Start();
-		audioSource.Play();
-		isPlaying = true;
-	}
-
 	/// <summary>
 	/// Specify the song to compile for this playthrough.
 	/// </summary>
-	/// <param name="_song"></param>
 	public void StartAudioCompilation(AudioClip _song)
 	{
 		audioSource.clip = _song;
 		audioSource.Play();
+		isPlaying = true;
 	}
 
 	public bool AudioIsPlaying()

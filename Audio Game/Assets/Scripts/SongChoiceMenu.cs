@@ -37,7 +37,7 @@ public class SongChoiceMenu : MonoBehaviour {
 	// Opens the windows menu for the player to choose a folder with songs. Attach this method to a button of sorts.
 	public void OpenFolderPanel()
 	{
-		StartCoroutine(SongChoiceMenuEditor.DesignateMusicFolder());
+		StartCoroutine(SongChoiceMenuEditor.DesignateMusicFolder(null));
 	}
 
 	// Spawn cassette tapes after song

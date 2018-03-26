@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.IO;
 using UnityEngine;
+using System;
 
 public class SongChoiceMenuEditor : EditorWindow {
 	
-	public static IEnumerator DesignateMusicFolder()
+	public static IEnumerator DesignateMusicFolder(Action onConvertClip)
 	{
 		string path = EditorUtility.OpenFolderPanel("Designate music folder", "", "");
 		string[] files = Directory.GetFiles(path);
 
 		DirectoryInfo dirInfo = new DirectoryInfo(path);
 		FileInfo[] fileInfos = dirInfo.GetFiles();
-
-
 
 		foreach (string fileName in files)
 		{
@@ -32,7 +31,7 @@ public class SongChoiceMenuEditor : EditorWindow {
 					{
 						yield return 0;
 					}
-					
+
 					convertedClip = NAudioPlayer.FromMp3Data(fileName);
 				}
 
@@ -44,15 +43,21 @@ public class SongChoiceMenuEditor : EditorWindow {
 					convertedClip.SetData(wav.LeftChannel, 0);
 				}
 
-				yield return convertedClip;
-
-				if (convertedClip != null) AddSongToGlobalManager(convertedClip);
-
-				
+				if (convertedClip != null && !SongManager.instance.HasSong(convertedClip))
+				{
+					AddSongToGlobalManager(convertedClip);
+				}
 			}
 		}
 
-		SongChoiceMenu.instance.SpawnCassettesFromSongs();
+		if (onConvertClip != null)
+		{
+			onConvertClip();
+		}
+
+		yield return null;
+
+		//SongChoiceMenu.instance.SpawnCassettesFromSongs();
 	}
 
 	static void AddSongToGlobalManager(AudioClip _clip)

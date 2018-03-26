@@ -27,7 +27,8 @@ public class SongManager : MonoBehaviour {
 	void Awake()
 	{
 		// The Start method is called once VRTK_SDKManager is initialized
-		VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange(this);
+		if (VRTK_SDKManager.instance != null)
+			VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange(this);
 
 		// Check if instance already exists
 		if (instance == null)
@@ -44,12 +45,14 @@ public class SongManager : MonoBehaviour {
 
 	void OnDestroy()
 	{
-		VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
+		if (VRTK_SDKManager.instance != null)
+			VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
 	}
 
 	void OnStart()
 	{
-		InitAudioObjects();
+		if (VRTK_SDKManager.instance != null)
+			InitAudioObjects();
 	}
 
 	/// <summary>
@@ -70,7 +73,7 @@ public class SongManager : MonoBehaviour {
 	{
         print("Started Playing Song");
         AudioCompiler.instance.StartAudioCompilation(selectedSong);
-		Invoke("StartAudioPlayback", playDelay);
+		StartAudioPlayback();
 
 		songIsPlaying = true;
 	}
@@ -78,7 +81,11 @@ public class SongManager : MonoBehaviour {
 	public void AddSong(AudioClip _clip)
 	{
 		songs.Add(_clip);
-		print("Song added : " + _clip.name);
+	}
+
+	public bool HasSong(AudioClip clip)
+	{
+		return songs.Contains(clip);
 	}
 
 	// Initialise the audiosources on the camera. Or create two GOs for spacial sound.
@@ -103,7 +110,14 @@ public class SongManager : MonoBehaviour {
 	// Starts the corresponding AudioPlaybacks
 	void StartAudioPlayback()
 	{
-		leftPlayback.BeginPlayback(selectedSong, leftAudioSource);
-		rightPlayback.BeginPlayback(selectedSong, rightAudioSource);
+		if (VRTK_SDKManager.instance != null)
+		{
+			leftPlayback.BeginPlayback(selectedSong, leftAudioSource);
+			rightPlayback.BeginPlayback(selectedSong, rightAudioSource);
+		}
+		else
+		{
+			AudioPlayback.instance.BeginPlayback(selectedSong);
+		}
 	}
 }

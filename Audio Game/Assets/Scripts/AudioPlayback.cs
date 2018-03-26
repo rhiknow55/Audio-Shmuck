@@ -29,22 +29,18 @@ public class AudioPlayback : AbstractAudioCompiler
 			Destroy(this.gameObject);
 	}
 
-	protected override void Start()
-	{
-		base.Start();
-
-		StartCoroutine(DelayPlayback());
-	}
-
 	/// <summary>
 	/// Begins the playback of "song" from "source"
 	/// </summary>
-	/// <param name="_song"></param>
-	/// <param name="_source"></param>
-	public void BeginPlayback(AudioClip _song, AudioSource _source)
+	public void BeginPlayback(AudioClip clip, AudioSource source = null)
 	{
-		_source.clip = _song;
-		_source.Play();
+		if (source != null)
+		{
+			audioSource = source;
+		}
+
+		audioSource.clip = clip;
+		StartCoroutine(DelayPlayback());
 	}
 
 	private IEnumerator DelayPlayback()

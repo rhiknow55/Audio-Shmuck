@@ -42,8 +42,10 @@ public class AbstractAudioCompiler : MonoBehaviour
 	protected AudioSource audioSource;
 
 	private float lastFreqSpikeTime;
+	private bool isInitialised;
 
-	protected virtual void Start () {
+	public virtual void Init ()
+	{
         audioSource = GetComponent<AudioSource>();
 		freqSubbandsInstant = new float[numberOfSubbands];
 		// Instantiate a multidimensional array like this - each subband has 43 values in one second
@@ -54,13 +56,19 @@ public class AbstractAudioCompiler : MonoBehaviour
 		// Instantiate the list of variances of the subbands
 		variances = new float[numberOfSubbands];
 		constantC = new float[numberOfSubbands];
+
+		isInitialised = true;
 	}
 
-	protected virtual void Update () {
-        GetSpectrumAudioSource();
-		CreateStereoSampleList();
-		CreateSubbands();
-		CalculateVarianceOfSubbands();
+	protected virtual void Update ()
+	{
+        if (isInitialised)
+		{
+			GetSpectrumAudioSource();
+			CreateStereoSampleList();
+			CreateSubbands();
+			CalculateVarianceOfSubbands();
+		}
 	}
 
 	// Step #1
