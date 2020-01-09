@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -23,6 +24,8 @@ public class SongChoiceView : MonoBehaviour
 
 		onConvertedClip += HandleClipConverted;
 		_dropDown.onValueChanged.AddListener(HandleValueChanged);
+
+		HandleButtonPress();
 	}
 
 	private void OnDestroy()
@@ -38,6 +41,8 @@ public class SongChoiceView : MonoBehaviour
 
 	private void HandleClipConverted()
 	{
+		if (DebugLogger.instance)
+			DebugLogger.instance.Log("Handle Clip Converted");
 		AudioCompiler.instance.Init();
 		AudioPlayback.instance.Init();
 

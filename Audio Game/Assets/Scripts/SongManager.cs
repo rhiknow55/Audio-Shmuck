@@ -78,9 +78,10 @@ public class SongManager : MonoBehaviour {
 		songIsPlaying = true;
 	}
 
-	public void AddSong(AudioClip _clip)
+	public void AddSong(AudioClip clip)
 	{
-		songs.Add(_clip);
+		if (!songs.Contains(clip))
+			songs.Add(clip);
 	}
 
 	public bool HasSong(AudioClip clip)

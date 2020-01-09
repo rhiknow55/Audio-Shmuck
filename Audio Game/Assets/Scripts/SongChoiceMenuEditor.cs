@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using UnityEditor;
 using System.IO;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class SongChoiceMenuEditor : EditorWindow {
 	
@@ -59,8 +61,9 @@ public class SongChoiceMenuEditor : EditorWindow {
 		//SongChoiceMenu.instance.SpawnCassettesFromSongs();
 	}
 
-	static void AddSongToGlobalManager(AudioClip _clip)
+	static void AddSongToGlobalManager(AudioClip clip)
 	{
-		SongManager.instance.AddSong(_clip);
+		SongManager.instance.AddSong(clip);
 	}
 }
+#endif
